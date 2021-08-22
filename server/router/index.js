@@ -1,9 +1,11 @@
 
 import  express from 'express'
-import  {getName} from '../controller/index'
+import  {login} from '../controller/index'
+// import {upload } from '../utils/File'
 export const  router = express.Router();
-// router.route('/').get(controller.getName).post(controller.add)
-// router.route('/').get(getName)
+// router.route('/').get(controller.login).post(controller.add)
+// router.route('/').get(login)
 // router.route('/1234')
-router.route('/1234').get(getName)
-
+router.route('/login').get(login) 
+// router.route('/').post(upload.single('Image'),blog rakhne ya)
+ 
