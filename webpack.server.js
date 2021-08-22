@@ -1,8 +1,12 @@
-const path = require('path');
-const nodeExternals = require('webpack-node-externals');
+// require("core-js/stable");
+require("@babel/polyfill");
+// require("regenerator-runtime/runtime");
+const  path = require('path')
+const  nodeExternals =require('webpack-node-externals')
 
-module.exports = {
-  entry: './server/index.js',
+
+module.exports = { 
+  entry: ['@babel/polyfill','./server/index.js'],
 
   target: 'node',
 
