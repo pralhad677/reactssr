@@ -1,96 +1,29 @@
 
 import React from 'react'
-import About from './Component/About'
-import Contact from './Component/Contact'
-import Blog from './Component/Blog'
-import Home from './Component/Home'
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container';
-import { headersData} from './Data/header'
+
 import ErrorBoundary from './ErrorBoundary'
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  makeStyles,
-  Button,
-  
-} from "@material-ui/core";
-import { Switch, Route,NavLink,Link as RouterLink} from 'react-router-dom'
 
-const useStyles = makeStyles(() => ({
-  header:{
-    backgroundColor:"blue",
-    
-  },
-  button:{
-    
-    color:"white",
-   
-  },
-  logo:{
-    color:"red",
-  
-  },
- 
-}));
-
- function App() {
-  const { header,logo } = useStyles();
-                     
-  
-
-const displayDesktop = () => {
+import About from './Component/About'
+import Home from './Component/Home'
+import Blog from './Component/Blog'
+import Contact from './Component/Contact'
+import Login from './Component/Login'
+import {Switch,Route} from 'react-router-dom'
+function App(){
   return (
-    <Toolbar >
-      {Mydata}
-      {getMenuButtons()}
-    </Toolbar>
-  );
-};
-                   
-const Mydata = (
-  <Typography variant="h6" component="h1" className={logo}>
-    Scholor Space
-  </Typography>
-);
-                   
-const getMenuButtons = () => {
-  return headersData.map(({ label, href }) => {
-    return (
-      <Button
+    <div>
       
-        {...{
-          key: label,
-          color: "red",
-          to: href,
-          component: RouterLink,
-          
-        }}
-       style={{
-    
-        color:"white",
-        marginLeft:"70px"
-      }}
-      >
-        {label}
-      </Button>
-    );
-  });
-};
-
-
-  return (
-    <div >
-      
-    <header>
-      <AppBar className={header}>{displayDesktop()}</AppBar>
-    </header>
-      
-    </div> 
-  );
+      <Switch>
+        <Route exact path="/"><Home /></Route>
+        <Route path="/contact"><Contact /></Route>
+        <Route path="/about"><About /></Route>
+        <Route path="/blog"><Blog /></Route>
+        <Route path="/login"><Login /></Route>
+        <Route path="*"><h1>page not found</h1></Route>
+      </Switch>
+    </div>
+  ) 
 }
-
 export default function appWithErrorBoundary(props){
   return (
     <ErrorBoundary>

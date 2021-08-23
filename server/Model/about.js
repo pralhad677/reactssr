@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 
 const aboutSchema = new mongoose.Schema({
-
+    
     
    
 })
