@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Form from './Form1'
 function Login() {
     return (
         <div>
-            <h1>Login</h1>
+           <Form />
         </div>
     )
 }

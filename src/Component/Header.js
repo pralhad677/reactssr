@@ -17,12 +17,12 @@ import { Link as RouterLink,useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
   header:{
-    backgroundColor:"blue",
-    
+    backgroundColor:"red",
+     
   },
   button:{
     
-    color:"white",
+    color:"white",  
    
   },
   logo:{
@@ -38,17 +38,18 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-function LoginOnClicked(){
-    let history = useHistory();
-    console.log("clicked")
-    history.push("/login")
-  
-  }
+
 
  function Header() {
   const { header,logo,avatar } = useStyles();
+    let history = useHistory();
                      
+  // function LoginOnClicked(){
+  //   let history = useHistory();
+  //   console.log("clicked") 
+  //   history.push("/login")
   
+  // }
 
 const displayDesktop = () => {
     
@@ -56,7 +57,7 @@ const displayDesktop = () => {
     <Toolbar >
       {Mydata}
       {getMenuButtons()}
-      <Button>
+      <Button onClick={()=>history.push("/login")}>
 
       <Avatar alt="Profile" src="../static/images/avatar/1.jpeg" className={avatar}/>
       </Button>

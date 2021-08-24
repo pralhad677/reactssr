@@ -11,7 +11,7 @@ ReactDOM.hydrate(
   <React.StrictMode>
 
  <Router>
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}> 
       
       <App />
     </ThemeProvider>
