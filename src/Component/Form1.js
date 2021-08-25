@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Formik, Field, Form } from 'formik';
 import * as Yup from "yup";
+import SignupReq from './signupReq'
+import axios from 'axios'
 const Schema = Yup.object().shape({ 
     email: Yup.string()
     .email()
@@ -30,8 +32,20 @@ const Basic = () => (
       }}
       validationSchema={Schema}
       onSubmit={async (values) => {
-        
-         
+          console.log('on submit');
+        //  <SignupReq data={values} state={true} />
+        try{
+          await axios.post('http://localhost:3006/signup', values)
+          .then(response => {
+            console.log('response',response)}
+              
+          ).catch(err=>console.log(err))
+
+          
+      }
+      catch(err){
+       throw new Error(err)
+                 }
         await new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
       }}
@@ -58,7 +72,7 @@ const Basic = () => (
               onChange={handleChange}
               value={values.password}
             />
-            <span class="error" style={{ color: "red" }}>
+            <span style={{ color: "red" }}>
               {errors.password}
             </span>
          <label for="password" style={{display:"block"}}>Confirm Password</label>
@@ -69,7 +83,7 @@ const Basic = () => (
               onChange={handleChange}
               value={values.changepassword}
             />
-            <span class="error" style={{ color: "red" }}>
+            <span style={{ color: "red" }}>
               {errors.changepassword}
             </span>
         

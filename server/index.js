@@ -13,9 +13,14 @@ import {GlobalErrorController} from './controller/GlobalErrorController'
 
 import  mongoSanitize from 'express-mongo-sanitize'
 import  xss  from 'xss-clean';
+import cors from 'cors'
+import  register from '@react-ssr/express/register'
   
 dotenv.config({path:'./dotenv.env'})
 const app = express();
+
+
+// app.use(cors({origin: 'http://localhost:3000'})); 
 
 process.on('uncaughtException',err => {
   console.log('Uncaught Exception occurs');
@@ -29,27 +34,32 @@ app.use(bodyParser.json({limit:'10kb'}));
 app.use(bodyParser.json());
 app.use(mongoSanitize());
 app.use(xss()); 
+// (async()=>{
+//   await register(app)
+// })()
 const serverRenderer = (req, res) => {
-    const app = ReactDOMServer.renderToString(<App />);
+  const app = ReactDOMServer.renderToString(<App />);
   
-    const indexFile = path.resolve('./build/index.html');
-    fs.readFile(indexFile, 'utf8', (err, data) => {
-      if (err) {
+  const indexFile = path.resolve('./build/index.html');
+  fs.readFile(indexFile, 'utf8', (err, data) => {
+    if (err) {
         console.error('Something went wrong:', err);
         return res.status(500).send('Oops, better luck next time!');
       }
   
       return res.send(
         data.replace('<div id="root"></div>', `<div id="root">${app}</div>`)
-      );
-    });
-  }
-  
+        );
+      });
+    }
+    
 router.use('^/$', serverRenderer) 
+// router.use('^/$', serverRenderer) 
 
-  app.use(express.static('./build'));
 
-  app.use(router)
+app.use(express.static('./build'));
+
+app.use(router)
 
   mongoose.connect('mongodb://localhost/fabDaiProject',{ useNewUrlParser: true,useUnifiedTopology: true  })
 .then(()=>{

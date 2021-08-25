@@ -18,7 +18,7 @@ const signToken = (id) => {
         console.log(token)
         const cookieOptions = {
           expires: new Date(
-            Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+            Date.now() + (process.env.JWT_COOKIE_EXPIRES_IN || 3) * 24 * 60 * 60 * 1000
           ),
           httpOnly: true
         };
@@ -59,15 +59,26 @@ export const login = CatchAsync(async (req, res, next) => {
   });
 
 export const signUp = CatchAsync(async (req, res, next) => {
-    const newUser = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      confirmPassword: req.body.confirmPassword
+  const {name,email,password,changepassword:confirmPassword} = req.body
+  console.log('name',name)
+  console.log('email',email)
+  console.log('password',password)
+  console.log('confirmPassword',confirmPassword)
+  // let emailExist = await User.find({ email }).exec();
+  // console.log('emailExist',emailExist)
+  // if(emailExist.includes(email)) throw new AppError("User already exist",400)
+    const newUser = await User({
+      name,
+      email,
+      password,
+      confirmPassword
     });
-    console.log(newUser)
-  
-    createSendToken(newUser, 201, res);
+    console.log('newUser',newUser)
+    let user = await newUser.save()
+    res.status(201).json({
+      user
+    })
+    // createSendToken(newUser, 201, res);
   });
 
   export const protect = CatchAsync(async (req, res, next) => {
