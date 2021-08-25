@@ -31,7 +31,8 @@ const Basic = ({history}) => (
         name:'',
         email: '',
         password:'',
-        changepassword:''
+        changepassword:'',
+        admin:true
       }}
       validationSchema={Schema}
       onSubmit={async (values) => {
@@ -40,14 +41,14 @@ const Basic = ({history}) => (
         try{
           console.log('window.location.pathname',window.location.pathname)
           // if(window.location.pathname==='/signup')
-          await axios.post(`http://localhost:3006/user/signup`, values)
+          await axios.post(`http://localhost:3006/admin/signup`, values)
           .then(response => {
             if(response.error){
             console.log('response',response.error)
           }
           else{
             console.log('response',response);
-          history.push("/login")
+          history.push("/adminLogin")
           }
         }
               
@@ -98,7 +99,15 @@ const Basic = ({history}) => (
             <span style={{ color: "red" }}>
               {errors.changepassword}
             </span>
-        
+            <label>
+          
+            <label>
+            <Field type="checkbox" name="admin" />
+            admin
+          </label>
+          
+            
+            </label>
         <button type="submit">Submit</button>
       </Form>
     )
@@ -106,5 +115,7 @@ const Basic = ({history}) => (
     </Formik>
   </div>
 );
+
+
 
 export default Basic

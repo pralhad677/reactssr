@@ -12,7 +12,7 @@ const signToken = (id) => {
         });
       };
 
-      const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, res) => {
         const token = signToken(user._id);
         
         console.log(token)
@@ -59,11 +59,12 @@ export const login = CatchAsync(async (req, res, next) => {
   });
 
 export const signUp = CatchAsync(async (req, res, next) => {
-  const {name,email,password,changepassword:confirmPassword} = req.body
+  const {name,email,password,changepassword:confirmPassword,admin} = req.body
   console.log('name',name)
   console.log('email',email)
   console.log('password',password)
   console.log('confirmPassword',confirmPassword)
+  if(admin) {var role='admin'}
   // let emailExist = await User.find({ email }).exec();
   // console.log('emailExist',emailExist)
   // if(emailExist.includes(email)) throw new AppError("User already exist",400)
@@ -71,7 +72,8 @@ export const signUp = CatchAsync(async (req, res, next) => {
       name,
       email,
       password,
-      confirmPassword
+      confirmPassword, 
+      role
     });
     console.log('newUser',newUser)
     let user = await newUser.save()
@@ -131,3 +133,5 @@ export const signUp = CatchAsync(async (req, res, next) => {
         next()
     }
   }
+
+  

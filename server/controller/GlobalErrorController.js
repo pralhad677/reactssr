@@ -34,7 +34,7 @@ const handleCastErrorDB = err => {
 const DevError = (err,res) => {
     console.log(err)
     const message = err.message;
-    // console.log(message)
+    console.log('error message',message)
     const status = err.status || 500;
 
     return res.status(status).json({

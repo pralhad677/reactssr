@@ -57,9 +57,13 @@ const displayDesktop = () => {
     <Toolbar >
       {Mydata}
       {getMenuButtons()}
-      <Button onClick={()=>history.push("/login")}>
+      <Button onClick={()=>history.push("/signup")}>
 
       <Avatar alt="Profile" src="../static/images/avatar/1.jpeg" className={avatar}/>
+      </Button>
+      <Button onClick={()=>history.push("/adminSignup")}>
+
+    <Typography h1>Admin</Typography>
       </Button>
       
     </Toolbar>

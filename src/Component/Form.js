@@ -1,84 +1,68 @@
-import React from "react";
-
-import { Formik } from "formik";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Formik, Field, Form } from 'formik';
 import * as Yup from "yup";
-
-
+import SignupReq from './signupReq'
+import axios from 'axios'
 const Schema = Yup.object().shape({ 
     email: Yup.string()
     .email()
     .required("Required"),
-    name: Yup.string()
-    .required("Required"),
+ 
   password: Yup.string().required("This field is required"),
-  changepassword: Yup.string().when("password", {
-    is: val => (val && val.length > 0 ? true : false),
-    then: Yup.string().oneOf(
-      [Yup.ref("password")],
-      "Both password need to be the same"
-    )
-  })
+  
 });
 
-function Form() {
-  return (
+const Basic = () => (
+  <div>
+    <h1>Sign Up</h1>
     <Formik
       initialValues={{
-        password: "",
-        changepassword: "",
-        name:"",
-        email:""
+        
+        email: '',
+        password:'',
       }}
       validationSchema={Schema}
-      onSubmit={async values => {
-        await new Promise(resolve => setTimeout(resolve, 500));
+      onSubmit={async (values) => {
+          console.log('on submit');
+        //  <SignupReq data={values} state={true} />
+        try{
+          
+          console.log('window.location.pathname',window.location.pathname)
+         await axios.post(`http://localhost:3006/user/signup`, values)
+          
+          .then(response => {
+            if(response.error){
+            console.log('response',response.error)
+          }
+          console.log('response',response)
+        }
+              
+          ).catch(err=>console.log(err)) 
+
+          
+      }
+      catch(err){
+       throw new Error(err)
+                 }
+        await new Promise((r) => setTimeout(r, 500));
         alert(JSON.stringify(values, null, 2));
       }}
     >
-      {props => {
-        props.submitCount > 0 && (props.validateOnChange = true);
-        const {
-          values,
-          touched,
-          errors,
-          dirty,
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset
-        } = props;
-        return (
-          <form onSubmit={handleSubmit}>
-              <label for="name" style={{display:"block"}}>Name</label>
-            <input
-              type="name"
-              name="name"
-             
-            />
-            <span class="error" style={{ color: "red" }}>
-              {errors.password}
-            </span>
-               <label htmlFor="email" style={{ display: "block" }}>
-              Email
-            </label>
-            <input
-              id="email"
-              placeholder="Enter your email"
-              type="text"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className={
-                errors.email && touched.email
-                  ? "text-input error"
-                  : "text-input"
-              }
-            />
-            {errors.email && touched.email && (
-              <div >{errors.email}</div>
-            )}
-            <label for="passowrd" style={{display:"block"}}>Password</label>
+    {({ values, errors, handleSubmit, handleChange, handleBlur }) => {
+    return(
+      <Form>
+        
+
+
+        <label htmlFor="email" style={{display:"block"}}>Email</label>
+        <Field
+          id="email"
+          name="email"
+          placeholder="jane@acme.com"
+          type="email"
+        />
+        <label for="password" style={{display:"block"}}>Password</label>
             <input
               type="password"
               name="password"
@@ -86,31 +70,17 @@ function Form() {
               onChange={handleChange}
               value={values.password}
             />
-            <span class="error" style={{ color: "red" }}>
+            <span style={{ color: "red" }}>
               {errors.password}
             </span>
-
-            <label for="passowrd" style={{display:"block"}}>Confirm Password</label>
-            <input
-              type="password"
-              name="changepassword"
-              onBlur={handleBlur}
-              onChange={handleChange}
-              value={values.changepassword}
-            />
-            <span class="error" style={{ color: "red" }}>
-              {errors.changepassword}
-            </span>
-            <button type="submit"  style={{display:"block"}} >
-              Submit
-            </button>
-          </form>
-        );
-      }}
+         
+        
+        <button type="submit">Submit</button>
+      </Form>
+    )
+    }}
     </Formik>
-  );
-}
+  </div>
+);
 
-
-
-export default Form
+export default Basic

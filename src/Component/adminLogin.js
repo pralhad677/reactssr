@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from './Form1'
+import Form from './Form2'
 function Login() {
     return (
         <div>

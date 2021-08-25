@@ -20,7 +20,9 @@ dotenv.config({path:'./dotenv.env'})
 const app = express();
 
 
-// app.use(cors({origin: 'http://localhost:3000'})); 
+app.use(cors({origin: 'http://localhost:3000'})); 
+// process.env.NODE_ENV ='production'
+console.log(process.env.NODE_ENV)
 
 process.on('uncaughtException',err => {
   console.log('Uncaught Exception occurs');
@@ -60,6 +62,7 @@ router.use('^/$', serverRenderer)
 app.use(express.static('./build'));
 
 app.use(router)
+app.use(GlobalErrorController)
 
   mongoose.connect('mongodb://localhost/fabDaiProject',{ useNewUrlParser: true,useUnifiedTopology: true  })
 .then(()=>{
@@ -67,7 +70,6 @@ app.use(router)
         console.log(`connected to port ${PORT}`)
     })
 })
-app.use(GlobalErrorController)
 process.on('unhandledRejection',(err) => {
   console.log(err.name,err.message);
   process.exit(1); 
